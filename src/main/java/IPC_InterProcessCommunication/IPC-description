@@ -1,0 +1,16 @@
+two types of processes
+    Independent process
+    Co-operating process
+
+Independent is not affected by the execution of other processes.
+Co-operating one can be affected by other executing processes.
+
++ In reality, there are many situations when co-operative nature can be utilized for increasing
+    - computational speed
+    - modularity
+
+-> Inter-process communication (IPC) - a mechanism that allows processes to communicate with each
+other and synchronize their actions. Processes can communicate with others through:
+    - Shared memory
+    - Message passing
+
