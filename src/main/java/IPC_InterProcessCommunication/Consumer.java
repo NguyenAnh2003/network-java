@@ -9,7 +9,7 @@ public class Consumer implements Runnable{
         this.queue = queue;
     }
 
-    public void consume() throws InterruptedException{
+    public synchronized void consume() throws InterruptedException{
         for(int i = 1; i<=10; i++) {
             int num = this.queue.take();
             System.out.println("Consumed " + num);
