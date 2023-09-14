@@ -9,7 +9,7 @@ public class Producer implements Runnable{
         this.queue = queue;
     }
 
-    public synchronized void produce() throws InterruptedException{
+    public void produce() throws InterruptedException{
             for(int i = 1; i<=10; i++) {
                 Message mess = new Message(i);
                 this.queue.put(mess.getData());
