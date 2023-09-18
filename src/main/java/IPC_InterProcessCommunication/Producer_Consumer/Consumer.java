@@ -1,6 +1,5 @@
-package IPC_InterProcessCommunication;
+package IPC_InterProcessCommunication.Producer_Consumer;
 
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 
 public class Consumer implements Runnable{

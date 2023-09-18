@@ -1,4 +1,4 @@
-package IPC_InterProcessCommunication;
+package IPC_InterProcessCommunication.Producer_Consumer;
 
 public class Message {
     private int data;
