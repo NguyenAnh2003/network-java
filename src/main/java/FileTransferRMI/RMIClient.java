@@ -18,7 +18,7 @@ public class RMIClient implements Serializable{
             FileManagerInterface fm = (FileManagerInterface) remote;
 
             /* Init file to send */
-            String DIR = "D:\\network\\network\\src\\main\\java\\FileTransferRMI\\fileExp.txt";
+            String DIR = "D:\\network\\network\\src\\main\\java\\FileTransferRMI\\hello.json";
             File file = new File(DIR);
             FileInputStream fin = new FileInputStream(file);
             System.out.println("Uploading file...");

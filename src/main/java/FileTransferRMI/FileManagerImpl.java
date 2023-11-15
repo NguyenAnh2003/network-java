@@ -12,7 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class FileManagerImpl extends UnicastRemoteObject implements FileManagerInterface, Serializable {
     private String DIR = "D:\\network\\network\\src\\main\\java\\FileTransferRMI\\fout";
     private Path path;
-    private String filename = "filename.txt";
+    private String filename = "out.json";
 
     protected FileManagerImpl() throws RemoteException {
     }
@@ -37,7 +37,6 @@ public class FileManagerImpl extends UnicastRemoteObject implements FileManagerI
             System.out.println("Data: " + data + " length: " + data.length);
             path = Path.of(DIR, filename);
             FileOutputStream fout = new FileOutputStream(path.toFile());
-            int bytesRead;
             /* FileoutputStream for writing byte in file */
             fout.write(data);
             fout.flush();
