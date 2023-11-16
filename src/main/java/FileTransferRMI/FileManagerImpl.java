@@ -1,15 +1,20 @@
 package FileTransferRMI;
 
-import java.io.File;
+
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 
-public class FileManagerImpl extends UnicastRemoteObject implements FileManagerInterface, Serializable {
+public class FileManagerImpl extends UnicastRemoteObject implements FileManager, Serializable {
     private String DIR = "D:\\network\\network\\src\\main\\java\\FileTransferRMI\\fout";
     private Path path;
     private String filename = "out.json";
@@ -33,10 +38,21 @@ public class FileManagerImpl extends UnicastRemoteObject implements FileManagerI
          * byte read
          */
         try {
+            /* javac -cp C:/"Program Files"/Java/json-simple-1.1.1.jar
+            * FileTransferRMI/*.java
+             */
             byte[] data = bytes;
             System.out.println("Data: " + data + " length: " + data.length);
             path = Path.of(DIR, filename);
             FileOutputStream fout = new FileOutputStream(path.toFile());
+
+            /* JSON */
+            String jsonStr = new String(data, StandardCharsets.UTF_8);
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) parser.parse(jsonStr);
+            String text = jsonObject.get("text").toString();
+            String description = jsonObject.get("description").toString();
+            System.out.println("JSON data: " + text + " des: " + description);
             /* FileoutputStream for writing byte in file */
             fout.write(data);
             fout.flush();

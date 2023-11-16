@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  * protocol - java RMI
  */
 
-public interface FileManagerInterface extends Remote {
+public interface FileManager extends Remote {
     /* upload file to server */
     public void uploadFile(byte[] bytes, int length) throws RemoteException;
 }

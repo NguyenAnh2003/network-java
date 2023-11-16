@@ -2,11 +2,9 @@ package FileTransferRMI;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.Naming;
 import java.rmi.Remote;
-import java.util.Scanner;
 
 
 public class RMIClient implements Serializable{
@@ -15,7 +13,7 @@ public class RMIClient implements Serializable{
             /* init connection RMI */
             String registration = "rmi://localhost/fileRMI";
             Remote remote = Naming.lookup(registration);
-            FileManagerInterface fm = (FileManagerInterface) remote;
+            FileManager fm = (FileManager) remote;
 
             /* Init file to send */
             String DIR = "D:\\network\\network\\src\\main\\java\\FileTransferRMI\\hello.json";
@@ -24,9 +22,10 @@ public class RMIClient implements Serializable{
             System.out.println("Uploading file...");
             /* file bytes, length */
             byte[] buffer = new byte[(int) file.length()];
-            int bytesRead;
             fin.read(buffer, 0, buffer.length);
+            /* upload file function call */
             fm.uploadFile(buffer, (int) file.length());
+            System.out.println("Upload file: " + buffer.length + " sucess "); // annoucement
         } catch (Exception e) {
             e.printStackTrace();
         }
