@@ -13,11 +13,16 @@ import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 public class FileManagerImpl extends UnicastRemoteObject implements FileManager, Serializable {
     private String DIR = "D:\\network\\network\\src\\main\\java\\FileTransferRMI\\fout";
     private Path path;
     private String filename = "out.json";
+    private Connection connection;
+
 
     protected FileManagerImpl() throws RemoteException {
     }
@@ -38,6 +43,9 @@ public class FileManagerImpl extends UnicastRemoteObject implements FileManager,
          * byte read
          */
         try {
+            connection = initConnection();
+            System.out.println("Connection: " + connection);
+
             /* javac -cp C:/"Program Files"/Java/json-simple-1.1.1.jar
             * FileTransferRMI/*.java
              */
@@ -46,6 +54,10 @@ public class FileManagerImpl extends UnicastRemoteObject implements FileManager,
             path = Path.of(DIR, filename);
             FileOutputStream fout = new FileOutputStream(path.toFile());
 
+            /**
+             * @param text
+             * @param description
+             */
             /* JSON */
             String jsonStr = new String(data, StandardCharsets.UTF_8);
             JSONParser parser = new JSONParser();
@@ -53,6 +65,13 @@ public class FileManagerImpl extends UnicastRemoteObject implements FileManager,
             String text = jsonObject.get("text").toString();
             String description = jsonObject.get("description").toString();
             System.out.println("JSON data: " + text + " des: " + description);
+
+            String query = "insert into texttb (text, description) values(?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, text);
+            preparedStatement.setString(2, description);
+            preparedStatement.executeUpdate();
+
             /* FileoutputStream for writing byte in file */
             fout.write(data);
             fout.flush();
@@ -60,5 +79,21 @@ public class FileManagerImpl extends UnicastRemoteObject implements FileManager,
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /* init DB connection */
+    private  Connection initConnection() {
+        try {
+            String url = "jdbc:mysql://localhost:3306/test";
+            String user = "root";
+            String password = "12345";
+            String driver = "com.mysql.jdbc.Driver";
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected");
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+        return connection;
     }
 }
